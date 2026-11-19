@@ -1,0 +1,177 @@
+/* Vice Cover Studio — editor styling. Dark neon UI; the poster itself
+   is drawn on canvas, so this file only dresses the controls. */
+
+@font-face {
+  font-family: 'Anton';
+  src: url('./fonts/Anton-Regular.ttf') format('truetype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Pacifico';
+  src: url('./fonts/Pacifico-Regular.ttf') format('truetype');
+  font-display: swap;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: #12081f;
+  color: #f5eefc;
+  font: 15px/1.5 system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 22px;
+  background: linear-gradient(90deg, #1b0b2e, #7b1e5b 55%, #ff5e3a);
+  border-bottom: 3px solid #ffcf3d;
+}
+
+.topbar h1 {
+  margin: 0;
+  font-family: Anton, 'Arial Narrow', sans-serif;
+  font-size: 34px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #fff;
+  text-shadow: 2px 2px 0 #14041f;
+}
+
+.topbar .sub { margin: 2px 0 0; color: #ffe9f6; font-size: 13px; }
+
+.export {
+  background: #ffcf3d;
+  color: #1b0b2e;
+  border: 0;
+  border-radius: 8px;
+  padding: 12px 22px;
+  font: 700 16px system-ui, sans-serif;
+  cursor: pointer;
+  box-shadow: 0 3px 0 #b98a00;
+}
+
+.export:hover { background: #ffe08a; }
+.export:disabled { opacity: 0.6; cursor: wait; }
+
+.app {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 20px;
+  padding: 20px 22px 28px;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.controls h2 {
+  margin: 20px 0 8px;
+  font-family: Anton, 'Arial Narrow', sans-serif;
+  font-size: 17px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #ffcf3d;
+}
+
+.controls h2:first-child { margin-top: 0; }
+
+.hint { margin: 4px 0 8px; color: #c9b8de; font-size: 13px; }
+.fine { color: #8f7ba8; font-size: 12px; }
+
+label { display: block; margin: 8px 0; font-weight: 600; font-size: 13px; }
+label input[type="text"] {
+  display: block;
+  width: 100%;
+  margin-top: 4px;
+  padding: 8px 10px;
+  border: 1px solid #5b3a7a;
+  border-radius: 6px;
+  background: #1e1030;
+  color: #fff;
+  font: 14px system-ui, sans-serif;
+}
+
+.upload {
+  display: inline-block;
+  padding: 9px 16px;
+  border-radius: 6px;
+  background: #ff2d95;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.upload input { display: none; }
+
+.library {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.thumb {
+  width: 82px;
+  height: 62px;
+  padding: 0;
+  border: 2px solid transparent;
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: pointer;
+  background: #241430;
+}
+
+.thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.thumb.selected { border-color: #37f4ff; box-shadow: 0 0 0 2px #37f4ff66; }
+
+.row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.row button {
+  padding: 8px 12px;
+  border: 1px solid #5b3a7a;
+  border-radius: 6px;
+  background: #241430;
+  color: #f5eefc;
+  cursor: pointer;
+  font: 600 13px system-ui, sans-serif;
+}
+
+.row button:hover { border-color: #ff2d95; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0; }
+.chip {
+  padding: 7px 11px;
+  border: 1px solid #5b3a7a;
+  border-radius: 999px;
+  background: #1e1030;
+  color: #e9dcf7;
+  cursor: pointer;
+  font: 600 12.5px system-ui, sans-serif;
+}
+
+.chip.active { background: #ff2d95; border-color: #ff2d95; color: #fff; }
+
+.check { display: inline-flex; align-items: center; gap: 6px; margin: 0 12px 0 0; }
+.stars { display: inline-flex; align-items: center; gap: 8px; margin: 0; }
+.stars input { width: 90px; }
+
+input[type="range"] { accent-color: #ff2d95; }
+
+.status { margin-top: 14px; padding: 10px 12px; border-radius: 6px; background: #1e1030; color: #9be8ff; font-size: 13px; }
+
+.stage { display: flex; flex-direction: column; align-items: center; }
+.stage canvas {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55);
+  cursor: crosshair;
+  background: #160a24;
+}
+
+@media (max-width: 900px) {
+  .app { grid-template-columns: 1fr; }
+  .topbar h1 { font-size: 24px; }
+}
