@@ -1,32 +1,32 @@
-// Vice Cover Studio — a tiny static file server for local testing.
-// Serves the app/ folder on http://localhost:8080 so the cover maker
-// can be tried in desktop Chrome exactly as the grader will serve it:
-// plain files, no build step, no network. Run with `node serve.ts`.
-// This is a development convenience, not part of the handed-in app.
+// Dev-only static server for app/ (Node 22, standard library only).
+// Usage: `node serve.ts` then open http://localhost:8080.
+// Serves only files inside app/; anything else gets a 404. Not part of
+// the entry itself — the app needs no server beyond a static file host.
 
 import { createReadStream, statSync } from 'node:fs';
 import { createServer } from 'node:http';
-import { extname, join, normalize, resolve, sep } from 'node:path';
+import { extname, join, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const appRoot = resolve(fileURLToPath(new URL('./app', import.meta.url)));
-const portArg = process.argv.indexOf('--port');
-const port = portArg === -1 ? 8080 : Number(process.argv[portArg + 1]) || 8080;
+const port = Number(process.argv[2]) || 8080;
 
 const TYPES = {
   '.html': 'text/html; charset=utf-8',
-  '.js': 'text/javascript; charset=utf-8',
   '.css': 'text/css; charset=utf-8',
+  '.js': 'text/javascript; charset=utf-8',
+  '.mjs': 'text/javascript; charset=utf-8',
+  '.json': 'application/json; charset=utf-8',
+  '.png': 'image/png',
   '.jpg': 'image/jpeg',
   '.jpeg': 'image/jpeg',
-  '.png': 'image/png',
   '.ttf': 'font/ttf',
   '.woff': 'font/woff',
   '.woff2': 'font/woff2',
 };
 
-createServer((req, res) => {
-  let path = '/';
+const server = createServer((req, res) => {
+  let path = '/index.html';
   try {
     path = decodeURIComponent(new URL(req.url ?? '/', 'http://localhost').pathname);
   } catch {
@@ -34,7 +34,7 @@ createServer((req, res) => {
     return;
   }
   if (path.endsWith('/')) path += 'index.html';
-  const file = resolve(join(appRoot, normalize(path)));
+  const file = resolve(join(appRoot, path));
   if (file !== appRoot && !file.startsWith(appRoot + sep)) {
     res.writeHead(403).end('forbidden');
     return;
@@ -54,6 +54,8 @@ createServer((req, res) => {
     'cache-control': 'no-store',
   });
   createReadStream(file).pipe(res);
-}).listen(port, '127.0.0.1', () => {
+});
+
+server.listen(port, '127.0.0.1', () => {
   console.log(`Vice Cover Studio is on http://localhost:${port}`);
 });
